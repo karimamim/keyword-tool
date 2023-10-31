@@ -1,0 +1,167 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>KeyWord Matching Tool</title>
+    <link
+      rel="stylesheet"
+      href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css"
+    />
+  </head>
+
+  <body>
+    <section>
+      <div class="container">
+        <div class="row pt-5 pb-3">
+          <div class="col-4">
+            <textarea
+              style="height: 8rem"
+              class="form-control"
+              placeholder="Enter Key Word"
+              name="firstBox"
+              id="firstBox"
+            ></textarea>
+          </div>
+          <div class="col-4">
+            <textarea
+              placeholder="Enter Key Word"
+              style="height: 8rem"
+              name="secondBox"
+              id="secondBox"
+              class="form-control"
+            ></textarea>
+          </div>
+          <div class="col-4">
+            <textarea
+              style="height: 8rem"
+              placeholder="Enter Key Word"
+              name="thirdBox"
+              id="thirdBox"
+              class="form-control"
+            ></textarea>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-4">
+            <h3 class="h5">Select match type:</h3>
+            <div class="form-group">
+              <div class="form-check">
+                <label
+                  ><input
+                    id="select-all"
+                    name="select-all"
+                    type="checkbox"
+                    class="form-check-input"
+                  />SELECT ALL</label
+                >
+              </div>
+              <div class="form-check">
+                <label
+                  ><input
+                    id="chkBroadMatch"
+                    name="chkBroadMatch"
+                    type="checkbox"
+                    value="1"
+                    class="form-check-input"
+                  />Broad match</label
+                >
+              </div>
+
+              <div class="form-check">
+                <label
+                  ><input
+                    id="chkPhrMatch"
+                    name="chkPhrMatch"
+                    type="checkbox"
+                    value="1"
+                    class="form-check-input"
+                  />"Phrase match"</label
+                >
+              </div>
+              <div class="form-check">
+                <label
+                  ><input
+                    id="chkExactMatch"
+                    name="chkExactMatch"
+                    type="checkbox"
+                    value="1"
+                    class="form-check-input"
+                  />[Exact match]</label
+                >
+              </div>
+            </div>
+          </div>
+          <div class="col-4">
+            <textarea
+              class="form-control"
+              style="height: 8rem"
+              placeholder="Results *"
+              name="resultBox"
+              id="resultBox"
+            ></textarea>
+          </div>
+          <div class="col-4">
+            <div class="pt-2">
+              <button
+                style="
+                  width: 100%;
+                  color: white;
+                  background-color: rgba(30, 0, 35, 0.897);
+                "
+                type="button"
+                id="btnMake"
+                name="btnMake"
+                class="btn btn-lg"
+              >
+                Make keyword list
+              </button>
+            </div>
+            <div class="pt-2">
+              <button
+                style="
+                  width: 100%;
+                  color: white;
+                  background-color: rgb(228, 100, 3);
+                "
+                type="button"
+                id="btnClear"
+                class="btn btn-lg"
+              >
+                Clear fields
+              </button>
+            </div>
+            <div class="pt-2">
+              <button
+                style="
+                  width: 100%;
+                  color: white;
+                  background-color: rgb(44, 55, 35);
+                "
+                id="btnSelect"
+                type="button"
+                class="btn btn-lg btn-block"
+              >
+                Copy Output keywords
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <script
+      src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.7.1/jquery.min.js"
+      integrity="sha512-v2CJ7UaYy4JwqLDIrZUI/4hqeoQieOmAZNXBeQyjo21dadnwR+8ZaIJVT8EE2iyI61OV8e6M8PP2/4hpQINQ/g=="
+      crossorigin="anonymous"
+      referrerpolicy="no-referrer"
+    ></script>
+    <script
+      src="https://cdnjs.cloudflare.com/ajax/libs/jqueryui/1.13.2/jquery-ui.min.js"
+      integrity="sha512-57oZ/vW8ANMjR/KQ6Be9v/+/h6bq9/l3f0Oc7vn6qMqyhvPd1cvKBRWWpzu0QoneImqr2SkmO4MSqU+RpHom3Q=="
+      crossorigin="anonymous"
+      referrerpolicy="no-referrer"
+    ></script>
+    <script src="script.js"></script>
+  </body>
+</html>
