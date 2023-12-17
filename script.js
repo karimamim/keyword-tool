@@ -99,8 +99,8 @@ jQuery(document).ready(function ($) {
 
     $("#btnSelect").tooltip({
       position: {
-        my: "left top-25",
-        at: "left top-25",
+        my: "left top-50",
+        at: "left top-100",
         using: function (position, feedback) {
           $(this).css(position);
           $("<div>")
