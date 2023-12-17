@@ -1,4 +1,5 @@
 jQuery(document).ready(function ($) {
+<<<<<<< HEAD
   var _separator = "";
   var _wordPrefix = "";
   var _result = "";
@@ -159,171 +160,333 @@ jQuery(document).ready(function ($) {
     t1 = $.trim($("#firstBox").val());
     t2 = $.trim($("#secondBox").val());
     t3 = $.trim($("#thirdBox").val());
+=======
+	var _separator = " ";
+	var _wordPrefix = "";
+	var _result = "";
+	var _lowercase = false;
 
-    if (_lowercase) {
-      t1 = t1.toLowerCase();
-      t2 = t2.toLowerCase();
-      t3 = t3.toLowerCase();
-    }
+	function resetVars() {
+		var _separator = " ";
+		var _wordPrefix = "";
+		var _result = "";
+		var _lowercase = false;
+	}
 
-    b1 = t1.split("\n");
-    b2 = t2.split("\n");
-    b3 = t3.split("\n");
+	function resetBoxes() {
+		$("#firstBox, #secondBox, #thirdBox").val("");
+	}
 
-    // looping for first box
-    for (i = 0; i < b1.length; i++) {
-      // looping for second box
-      for (j = 0; j < b2.length; j++) {
-        // looping for third box
-        for (k = 0; k < b3.length; k++) {
-          b1[i] = $.trim(b1[i]);
-          b2[j] = $.trim(b2[j]);
-          b3[k] = $.trim(b3[k]);
+	function resetResult() {
+		_result = "";
+		$("#resultBox").val("");
+	}
 
-          // broad match
-          if (matchBroad) {
-            ln = "";
-            pre = suf = "";
+	$(function () {
+		// getting option values
+		$("#optNothing").click(function () {
+			_separator = "";
+			_wordPrefix = "";
+		});
+		$("#optSpace").click(function () {
+			_separator = " ";
+			_wordPrefix = "";
+		});
+		$("#optMinus").click(function () {
+			_separator = "-";
+			_wordPrefix = "";
+		});
+		$("#optPlus").click(function () {
+			_separator = " +";
+			_wordPrefix = "+";
+		});
 
-            if (b1[i] != "") ln = b1[i];
+		// getting lowercase option
+		$("#chkLowercase").click(function () {
+			if ($(this).is(":checked")) _lowercase = true;
+			else _lowercase = false;
+		});
 
-            if (b2[j] != "") ln += (ln != "" ? _separator : "") + b2[j];
+		$("#btnClear").click(function () {
+			//resetVars();
+			resetResult();
+			resetBoxes();
+			$("#btnSelect").text("Copy Output Keywords");
+			$("#btnSelect").removeClass("btn-select-active");
+		});
 
-            if (b3[k] != "") ln += (ln != "" ? _separator : "") + b3[k];
+		$("#btnMake").click(function () {
+			resetResult();
+			$("#btnSelect").text("Copy Output Keywords");
+			$("#btnSelect").removeClass("btn-select-active");
 
-            // complete the line
-            ln = $.trim(ln);
+			// // broad match
+			// if($('#chkBroadMatch').is(':checked')) _result += (_result != '' ? '\n' : '') + make();
 
-            if (_wordPrefix == "+") ln = ln.replace(/ /g, " +");
+			// // modified broad match
+			// if($('#chkModiBroad').is(':checked')) {
+			// 	//var _tmpSeparator  = _separator;
+			// 	var _tmpWordPrefix = _wordPrefix;
 
-            if (ln != "")
-              res += (res != "" ? "\n" : "") + _wordPrefix + pre + ln + suf;
-            ln = "";
-          }
+			// 	//_separator  =  _separator == ' ' ? ' +' : _separator;
+			// 	_wordPrefix = '+';
 
-          // modified broad match
-          if (matchModiBroad) {
-            var _tmpWordPrefix = _wordPrefix;
+			// 	_result += (_result != '' ? '\n' : '') + make();
 
-            //_separator  =  _separator == ' ' ? ' +' : _separator;
-            _wordPrefix = "+";
+			// 	//_separator  = _tmpSeparator;
+			// 	_wordPrefix = _tmpWordPrefix;
 
-            ln = "";
-            pre = suf = "";
+			// }
 
-            if (b1[i] != "") ln = b1[i];
+			// // exact match
+			// if($('#chkExactMatch').is(':checked')) _result += (_result != '' ? '\n' : '') + make('[', ']');
 
-            if (b2[j] != "") ln += (ln != "" ? _separator : "") + b2[j];
+			// // phrase match
+			// if($('#chkPhrMatch').is(':checked')) _result += (_result != '' ? '\n' : '') + make('"', '"');
 
-            if (b3[k] != "") ln += (ln != "" ? _separator : "") + b3[k];
+			// // if nothing is selected to include do a braod match
+			// if(_result == '') _result = make();
 
-            // complete the line
-            ln = $.trim(ln);
+			_result = make();
 
-            if (_wordPrefix == "+") ln = ln.replace(/ /g, " +");
+			$("#resultBox").val(_result);
+		});
 
-            if (ln != "")
-              res += (res != "" ? "\n" : "") + _wordPrefix + pre + ln + suf;
-            ln = "";
+		$("#btnSelect").click(function () {
+			$("#resultBox").select();
+			document.execCommand("copy");
+			$("#btnSelect").text("Output keywords are copied");
+			$("#btnSelect").addClass("btn-select-active");
+		});
 
-            //_separator  = _tmpSeparator;
-            _wordPrefix = _tmpWordPrefix;
-          }
+		$("#btnSelect").tooltip({
+			position: {
+				my: "left top-25",
+				at: "left top-25",
+				using: function (position, feedback) {
+					$(this).css(position);
+					$("<div>")
+						.addClass("arrow")
+						.addClass(feedback.vertical)
+						.addClass(feedback.horizontal)
+						.appendTo(this);
+				},
+			},
+		});
 
-          // phrase match
-          if (matchPhrase) {
-            ln = "";
-            pre = suf = '"';
+		$("#btnSelect").on({
+			click: function () {
+				$(this).tooltip({
+					items: "#btnSelect",
+					content: "",
+				});
+				$(this).tooltip("open");
+			},
+			mouseout: function () {
+				$(this).tooltip("disable");
+			},
+		});
 
-            if (b1[i] != "") ln = b1[i];
+		// setting up page with default values
+		pagesetup();
+	});
 
-            if (b2[j] != "") ln += (ln != "" ? _separator : "") + b2[j];
+	function pagesetup() {
+		$("#optSpace").click();
+		//$('#chkBroadMatch').click();
+		//$('#chkModiBroad').click();
+		//$('#chkExactMatch').click();
+		//$('#chkPhrMatch').click();
+		//$('#chkLowercase').click();
+	}
 
-            if (b3[k] != "") ln += (ln != "" ? _separator : "") + b3[k];
+	function make(pre, suf) {
+		var pre = (suf = "");
 
-            // complete the line
-            ln = $.trim(ln);
+		if (typeof pre === "undefined" || typeof pre == undefined) pre = "";
+		if (typeof suf === "undefined" || typeof suf == undefined) suf = "";
 
-            //if(_wordPrefix == '+') ln = ln.replace(/ /g," +");
+		var t1, t2, t3;
+		var b1, b2, b3;
+		var ln = "";
+		var res = "";
 
-            if (ln != "")
-              res += (res != "" ? "\n" : "") + _wordPrefix + pre + ln + suf;
-            ln = "";
-          }
+		var matchModiBroad = $("#chkModiBroad").is(":checked");
+		var matchExact = $("#chkExactMatch").is(":checked");
+		var matchPhrase = $("#chkPhrMatch").is(":checked");
+		var matchBroad =
+			$("#chkBroadMatch").is(":checked") ||
+			(!matchModiBroad && !matchExact && !matchPhrase);
 
-          // exact match
-          if (matchExact) {
-            ln = "";
-            pre = "[";
-            suf = "]";
+		t1 = $.trim($("#firstBox").val());
+		t2 = $.trim($("#secondBox").val());
+		t3 = $.trim($("#thirdBox").val());
+>>>>>>> 721841ddf4a8c03f7a5fe82e7ca3b71bc5f2d3f6
 
-            if (b1[i] != "") ln = b1[i];
+		if (_lowercase) {
+			t1 = t1.toLowerCase();
+			t2 = t2.toLowerCase();
+			t3 = t3.toLowerCase();
+		}
 
-            if (b2[j] != "") ln += (ln != "" ? _separator : "") + b2[j];
+		b1 = t1.split("\n");
+		b2 = t2.split("\n");
+		b3 = t3.split("\n");
 
-            if (b3[k] != "") ln += (ln != "" ? _separator : "") + b3[k];
+		// looping for first box
+		for (i = 0; i < b1.length; i++) {
+			// looping for second box
+			for (j = 0; j < b2.length; j++) {
+				// looping for third box
+				for (k = 0; k < b3.length; k++) {
+					b1[i] = $.trim(b1[i]);
+					b2[j] = $.trim(b2[j]);
+					b3[k] = $.trim(b3[k]);
 
-            // complete the line
-            ln = $.trim(ln);
+					// broad match
+					if (matchBroad) {
+						ln = "";
+						pre = suf = "";
 
-            //if(_wordPrefix == '+') ln = ln.replace(/ /g," +");
+						if (b1[i] != "") ln = b1[i];
 
-            if (ln != "")
-              res += (res != "" ? "\n" : "") + _wordPrefix + pre + ln + suf;
-            ln = "";
-          }
+						if (b2[j] != "") ln += (ln != "" ? _separator : "") + b2[j];
 
-          // if(b1[i] != '') ln = b1[i];
+						if (b3[k] != "") ln += (ln != "" ? _separator : "") + b3[k];
 
-          // if(b2[j] != '') ln += (ln != '' ? _separator : '') + b2[j];
+						// complete the line
+						ln = $.trim(ln);
 
-          // if(b3[k] != '') ln += (ln != '' ? _separator : '') + b3[k];
+						if (_wordPrefix == "+") ln = ln.replace(/ /g, " +");
 
-          // // complete the line
-          // ln = $.trim(ln);
+						if (ln != "")
+							res += (res != "" ? "\n" : "") + _wordPrefix + pre + ln + suf;
+						ln = "";
+					}
 
-          // if(_wordPrefix == '+') ln = ln.replace(/ /g," +");
+					// modified broad match
+					if (matchModiBroad) {
+						var _tmpWordPrefix = _wordPrefix;
 
-          // if(ln != '') res +=  (res != '' ? '\n' : '') + _wordPrefix + pre + ln + suf;
-          // ln = '';
-        }
-      }
-    }
+						//_separator  =  _separator == ' ' ? ' +' : _separator;
+						_wordPrefix = "+";
 
-    return res;
-  }
+						ln = "";
+						pre = suf = "";
 
-  // // select result text
-  // function selectText(el) {
+						if (b1[i] != "") ln = b1[i];
 
-  // 	var tempval= document.getElementById(el);
+						if (b2[j] != "") ln += (ln != "" ? _separator : "") + b2[j];
 
-  // 	tempval.focus();
+						if (b3[k] != "") ln += (ln != "" ? _separator : "") + b3[k];
 
-  // 	tempval.select();
+						// complete the line
+						ln = $.trim(ln);
 
-  // 	//therange = tempval.createTextRange();
+						if (_wordPrefix == "+") ln = ln.replace(/ /g, " +");
 
-  // 	//therange.execCommand("Copy");
+						if (ln != "")
+							res += (res != "" ? "\n" : "") + _wordPrefix + pre + ln + suf;
+						ln = "";
 
-  // }
+						//_separator  = _tmpSeparator;
+						_wordPrefix = _tmpWordPrefix;
+					}
+
+					// phrase match
+					if (matchPhrase) {
+						ln = "";
+						pre = suf = '"';
+
+						if (b1[i] != "") ln = b1[i];
+
+						if (b2[j] != "") ln += (ln != "" ? _separator : "") + b2[j];
+
+						if (b3[k] != "") ln += (ln != "" ? _separator : "") + b3[k];
+
+						// complete the line
+						ln = $.trim(ln);
+
+						//if(_wordPrefix == '+') ln = ln.replace(/ /g," +");
+
+						if (ln != "")
+							res += (res != "" ? "\n" : "") + _wordPrefix + pre + ln + suf;
+						ln = "";
+					}
+
+					// exact match
+					if (matchExact) {
+						ln = "";
+						pre = "[";
+						suf = "]";
+
+						if (b1[i] != "") ln = b1[i];
+
+						if (b2[j] != "") ln += (ln != "" ? _separator : "") + b2[j];
+
+						if (b3[k] != "") ln += (ln != "" ? _separator : "") + b3[k];
+
+						// complete the line
+						ln = $.trim(ln);
+
+						//if(_wordPrefix == '+') ln = ln.replace(/ /g," +");
+
+						if (ln != "")
+							res += (res != "" ? "\n" : "") + _wordPrefix + pre + ln + suf;
+						ln = "";
+					}
+
+					// if(b1[i] != '') ln = b1[i];
+
+					// if(b2[j] != '') ln += (ln != '' ? _separator : '') + b2[j];
+
+					// if(b3[k] != '') ln += (ln != '' ? _separator : '') + b3[k];
+
+					// // complete the line
+					// ln = $.trim(ln);
+
+					// if(_wordPrefix == '+') ln = ln.replace(/ /g," +");
+
+					// if(ln != '') res +=  (res != '' ? '\n' : '') + _wordPrefix + pre + ln + suf;
+					// ln = '';
+				}
+			}
+		}
+
+		return res;
+	}
+
+	// // select result text
+	// function selectText(el) {
+
+	// 	var tempval= document.getElementById(el);
+
+	// 	tempval.focus();
+
+	// 	tempval.select();
+
+	// 	//therange = tempval.createTextRange();
+
+	// 	//therange.execCommand("Copy");
+
+	// }
 });
 
 //$( document ).ready( function() {
 jQuery(document).ready(function ($) {
-  $("input#select-all").bind("click", function () {
-    if ($(this).is(":checked")) {
-      $("input[type=checkbox]").each(function () {
-        if (!$(this).is(":checked")) {
-          $(this).click();
-        }
-      });
-    } else {
-      $("input[type=checkbox]").each(function () {
-        if ($(this).is(":checked")) {
-          $(this).click();
-        }
-      });
-    }
-  });
+	$("input#select-all").bind("click", function () {
+		if ($(this).is(":checked")) {
+			$("input[type=checkbox]").each(function () {
+				if (!$(this).is(":checked")) {
+					$(this).click();
+				}
+			});
+		} else {
+			$("input[type=checkbox]").each(function () {
+				if ($(this).is(":checked")) {
+					$(this).click();
+				}
+			});
+		}
+	});
 });
